@@ -1,275 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Date?</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
-    <style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Pacifico&family=Dancing+Script:wght@500&display=swap');
 
-        @import url('://fonts.googleapis.com/css2?family=Bellota+Text:ital,wght@1,300&family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap');
-https
-        *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Bellota Text', sans-serif;
-    
-}
-body, html{
-    width: 100%;
-    height: 100vh;
-    background-image: url("https://img.freepik.com/free-vector/cloud-background-vector-cute-desktop-wallpaper_53876-136885.jpg?w=826&t=st=1704789857~exp=1704790457~hmac=381926ab355f58892a476af4dd9c1b104192572bd7b1a38ac49528094d2ec6ce");
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    background-size:cover;
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #2b0008, #0b0205);
+  overflow: hidden;
+  font-family: 'Playfair Display', serif;
 }
 
-.confirmation{
-    display: none;
-    width: 400px;
-    height: 500px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    text-align: center;
-    /* padding-top: 50px; */
+/* FLOATING HEARTS */
+.hearts::before {
+  content: "❤ ❤ ❤ ❤ ❤";
+  position: fixed;
+  left: 0;
+  bottom: -15%;
+  width: 100%;
+  font-size: 28px;
+  letter-spacing: 50px;
+  animation: floatHearts 18s linear infinite;
+  opacity: 0.1;
+}
+@keyframes floatHearts {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-140vh); }
 }
 
-.confirmation h1{
-    font-style: bolder;
-    font-size: 50px;
-    font-weight: 700;
-    text-shadow: 0px 3px 6px rgb(147, 77, 77);
-    line-height: 90px;
+/* ================= BIG ENVELOPE ================= */
+.envelope-wrap {
+  text-align: center;
+  animation: fadeIn 2s ease;
 }
 
-.fix-gif{
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width:100%;
-    height: 200px;
-    
-
+.envelope {
+  width: 360px;
+  height: 250px;
+  background: #5a0008;
+  position: relative;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 50px rgba(193,18,31,0.45);
 }
 
-.fix-gifimg{
-    border-radius: 10px;
-    width: 384px;
-    height: 216px;
-    background-image: url("https://media1.tenor.com/m/2VprHA868S8AAAAC/yummy-desserts-desserts-milk-mocha.gif");
-    background-size: cover; 
+.envelope::before,
+.envelope::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
 }
 
-.container h1{
-    margin-bottom: 20px;
-    margin-top: 50px;
-    font-style: bolder;
-    font-size: 50px;
-    font-weight: 700;
-    text-shadow: 0px 3px 6px rgb(147, 77, 77);
+.envelope::before {
+  top: 0;
+  left: 0;
+  border-width: 125px 180px 0 180px;
+  border-color: #8b0000 transparent transparent transparent;
 }
 
-#fix{
-    margin-top: 30px;
-        border: none;
-        width: 400px;
-        height: 50px;
-        font-size: 30px;
-        border-radius: 10px;
-        background: none;
-        backdrop-filter: blur(5px);
-        border: 1px solid black;
-        font-weight: 550;
-}
-.container{
-    width: 400px;
-    height: 500px;
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%,-50%);
-    text-align: center;
-    
+.envelope::after {
+  bottom: 0;
+  left: 0;
+  border-width: 0 180px 125px 180px;
+  border-color: transparent transparent #4a0006 transparent;
 }
 
-.gif{
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width:100%;
-    height: 300px;
-    
-
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-width: 125px 180px 0 180px;
+  border-style: solid;
+  border-color: #c1121f transparent transparent transparent;
+  transform-origin: top;
+  transition: transform 1.5s ease;
+  z-index: 3;
 }
 
-.gifimg{
-    border-radius: 10px;
-    width: 384px;
-    height: 254px;
-    background-image: url("https://media1.tenor.com/m/4IckGuTqWeYAAAAC/spongebob-squarepants-begging.gif");
-    background-size: cover; 
+.letter {
+  position: absolute;
+  top: 50px;
+  left: 30px;
+  width: 300px;
+  height: 160px;
+  background: #140508;
+  border-radius: 10px;
+  color: #f5dcdc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Pacifico', cursive;
+  font-size: 26px;
+  box-shadow: 0 0 30px rgba(193,18,31,0.45);
+  transition: transform 1.5s ease, opacity 1s ease;
 }
 
-.answer-box{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    /* background-color: black; */
-    padding: 10px;
-    margin-top: 5px;
-    width: 100%;
-    height: 80px;
-    gap: 50px;
+.envelope.open .flap { transform: rotateX(180deg); }
+.envelope.open .letter {
+  transform: translateY(-170px);
+  opacity: 0;
 }
 
-.answer{
-    border: none;
-    width: 100px;
-    height: 50px;
-    font-size: 30px;
-    border-radius: 10px;
-    background: none;
-    backdrop-filter: blur(5px);
-    border: 1px solid black;
-    font-weight: 550;
-    
-}
-.answer:hover{
-    box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.449);
+.hint {
+  margin-top: 22px;
+  color: #f1cccc;
+  font-style: italic;
+  opacity: 0.7;
 }
 
-@media screen and (max-width: 600px){
-    .container{
-        width: 100%;
-    }
-    .container h1{
-        margin-top: 20px;
-        padding: 8px;
-        font-size: 35px;
-    }
-    .answer{
-        font-size: 20px;
-        padding: 5px;
-    }
-    .gifimg{
-        border-radius: 10px;
-        width: 300px;
-        height: 198px;
-        background-image: url("https://media1.tenor.com/m/UAFrdZCt29YAAAAC/milk-and-mocha-waiting-for-reply.gif");
-        background-size: cover; 
-    }
-    .fix-gif{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width:100%;
-        height: 200px;
-        
-    
-    }
-    
-    .fix-gifimg{
-        border-radius: 10px;
-        width: 300px;
-        height: 168px;
-        background-image: url("https://media1.tenor.com/m/2VprHA868S8AAAAC/yummy-desserts-desserts-milk-mocha.gif");
-        background-size: cover; 
-    }
-
-    #fix{
-        margin-top: 30px;
-            border: none;
-            width: 250px;
-            height: 50px;
-            font-size: 30px;
-            border-radius: 10px;
-            background: none;
-            backdrop-filter: blur(5px);
-            border: 1px solid black;
-            font-weight: 550;
-    }
-
-    .confirmation{
-        display: none;
-        width: 100%;
-        height: 500px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
-        text-align: center;
-    }
+/* ================= LETTER PAPER ================= */
+.paper {
+  background: linear-gradient(#fffaf0, #f1e4cc);
+  color: #3b1f1f;
+  padding: 55px 45px;
+  border-radius: 6px;
+  max-width: 92%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(0,0,0,0.05);
+  animation: slideUp 1.6s ease, candle 6s infinite alternate;
 }
 
-    
-    </style>
-    </style>
+/* candle flicker */
+@keyframes candle {
+  0% { box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+  100% { box-shadow: 0 25px 75px rgba(0,0,0,0.8); }
+}
+
+/* paper lines */
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.03) 0px,
+      rgba(0,0,0,0.03) 1px,
+      transparent 1px,
+      transparent 30px
+    );
+  pointer-events: none;
+}
+
+/* fold corner */
+.paper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, rgba(0,0,0,0.15), transparent);
+}
+
+.paper h1 {
+  font-family: 'Pacifico', cursive;
+  color: #8b0000;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* handwriting */
+.paper p {
+  font-family: 'Dancing Script', cursive;
+  font-size: 23px;
+  line-height: 2;
+  white-space: pre-wrap;
+}
+
+/* red ink */
+.red {
+  color: #8b0000;
+  font-weight: bold;
+}
+
+/* secret */
+.secret {
+  margin-top: 40px;
+  padding: 18px;
+  border-left: 4px solid #8b0000;
+  background: rgba(139,0,0,0.06);
+  filter: blur(6px);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: all 0.8s ease;
+}
+.secret.reveal {
+  filter: blur(0);
+  opacity: 1;
+}
+
+.hidden { display: none; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="question">
-            <h1>Will you go on a date with me?</h1>
-        </div>
-        <div class="gif">
-            <div class="gifimg"></div>
-        </div>
-        <div class="answer-box">
-                <button class="answer" id="yes">Yes!!!</button>
-                <button class="answer" id="no">No</button>
-        </div>
-        
-    </div>
+<div class="hearts"></div>
 
-    <div class="confirmation">
-        <h1>Yayyyyyyyy!!! Finally</h1>
-            <div class="question">
-                <div class="fix-gif">
-                    <div class="fix-gifimg"></div>
-                </div>
-                <!-- <a href="https://wa.me/+918595790116?text='Chalo date pr chalein!!!!!' ">
-                </a> -->
-                    <button class="answer" id="fix">Let's Fix a date</button>
-                
-            </div>
-    </div>
+<!-- PAGE 1 -->
+<div class="envelope-wrap" id="page1">
+  <div class="envelope" onclick="openEnvelope()">
+    <div class="flap"></div>
+    <div class="letter">For You ❤️</div>
+  </div>
+  <p class="hint">tap once… it was always meant for you</p>
+</div>
 
-    </div>
+<!-- PAGE 2 -->
+<div class="paper hidden" id="page2">
+  <h1>Happy New Year, Mia Stellina ✨</h1>
+  <p id="typewriter"></p>
 
-    <script>
-        const yes = document.querySelector("#yes");
-const no = document.querySelector("#no");
-const confirmation = document.querySelector(".confirmation");
-const container = document.querySelector(".container");
+  <div class="secret" onclick="revealSecret(this)">
+    this line was never meant to be seen so clearly…
+  </div>
+</div>
 
-yesAnswerMethod = () => {
-    container.style.display = 'none'
-    confirmation.style.display = 'block'
+<audio id="bgm" loop muted>
+  <source src="Raissa-Anggiani.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function openEnvelope() {
+  document.querySelector(".envelope").classList.add("open");
+
+  setTimeout(() => {
+    page1.classList.add("hidden");
+    page2.classList.remove("hidden");
+
+    const music = document.getElementById("bgm");
+    music.muted = false;
+    music.volume = 0.5;
+    music.play();
+
+    typeEffect();
+  }, 1600);
 }
 
-noAnswerMethod = () => {
-    no.style.position = 'absolute'
+const text = `
+haii cantikk,
 
-    xPosition = Math.floor(Math.random() * container.clientWidth)
-    yPosition = Math.floor(Math.random() * container.clientHeight)
+terima kasih. terima kasih sebab sudi terima bunga ni. i think you love mixed flowers. i guess you like lilies more but sorry this time i give you rose, because i love roses. 
+terima kasih sebab baca surat ni. terima kasih juga sebab bagi aku peluang berkawan dengan kau hehehe. A special thank you to your parents for raising such a beautiful daughter. 🙈 
 
-    no.style.top = `${yPosition}px`
-    no.style.left = `${xPosition}px`
+I have many stories to share, but today, I choose to tell a story of love. A multitude of feelings reside within, yet we remain unable to share them. It will remain ours alone. perhaps we are lucky to receive love from others while our own love still belongs only to us. 
 
+Tapi jangan salah faham. I'm not here demanding love from you. I'm here to hear all about you. I love the idea of sharing our feelings without fear.  I know everything takes time, and we're still new. It's okay.  Let time take its course, and we’ll see where this leads. 
+
+hey, kau dah tau belum kenapa aku panggil kau mia stellina? hahahah. my little star. kau tau, aku lalui beberapa tahun yang lepas tak mudah. ada malam aku susah tidur sebab fikir nak tempuh hari esok. ada malam aku susah tidur sebab fikir how to end my life. HAHAHA. aku jenis susah tidur. kalau aku tidur awal maksudnya aku betul betul penat atau im happy? HAHAHAH. lagi satu, aku tak pandai nangis. kadang aku sesak nafas sebab tak pandai nangis je. HAHAHAHA. Kalau kau tanya, teruk sangat ke? hidup aku okay je. aku percaya semua orang ada ujian masing masing dan aku tak boleh kata ujian aku paling teruk. so untuk harini aku cakap hidup aku okay je. Alhmdulillah.  
+
+dan Alhamdullilah juga, Allah pinjam kan kau, untuk aku walaupun dah hujung tahun. HAHAHAH. You were like a star to me. You brought light into my life, even though I knew you were far away and never meant to be held. And that was okay. aku dah boleh tido awal. aku happy nak buat macam macam. aku selalu senyum. ermm susah nak cakap tapi aku suka. aku tak kisah kalau Allah bagi pinjam sekejap pun, dan untuk itu. terima kasih dan Alhamdullilah.
+
+macam dah panjang sangat. HAHAHA. ish tak puas la borak. So in the end, I understand if you walk away after reading all this. aku faham. I’m just expressing my feelings. I don’t really know why—I just felt like I should. HAHAHA. aku tau aku ada banyak kekurangan, red flag; banyak benda yang kau tak suka dan aku sedar. aku tau, aku bukan macam kawan kawan atau mana mana manusia yang best, pernah kau ada dalam hidup kau sebelum ni dan seterusnya. and I don’t want to be selfish by asking you to stay. Please live your life as you always have. And I’d really appreciate it if I could still be part of your life. This isn't a confession; it is simply my way of saying thank you for existing. As the year ends, I hope you find nothing but happiness in all the years to come. 
+
+terima kasih sudi baca panjang panjang. terima kasih sudi terima bunga. terima kasih sebab datang. terima kasih. Happy New Year Mia Stellina. Wish you all the best. inshaAllah aku selalu doakan kau. doakan aku sekali tau! Semoga kita dapat berjumpa… dan jumpa lagi.
+
+— ADD ❤️
+`;
+
+let i = 0;
+function typeEffect() {
+  const el = document.getElementById("typewriter");
+  if (i < text.length) {
+    el.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeEffect, 45);
+  }
 }
 
-no.addEventListener('click', noAnswerMethod)
-yes.addEventListener('click', yesAnswerMethod)
+function revealSecret(el) {
+  el.classList.add("reveal");
+  el.innerHTML = `
+  pstttt...can we keep this as our secret?
+  hmm,  mia stellina? ❤️
+  `;
+}
+</script>
 
-document.getElementById("fix").addEventListener("click", function(){
-    window.location= "https://wa.me/+60182807879?text=Hai Hensem. Jom Date !!!!! ";
-}, false);
-    </script>
-    
 </body>
 </html>
