@@ -2,302 +2,411 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>For You</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Pacifico&family=Dancing+Script:wght@500&display=swap');
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier Prime', monospace;
+}
 
 body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: radial-gradient(circle at top, #2b0008, #0b0205);
+  background: linear-gradient(135deg, #f7d9e3, #e6ecfa, #fef6f9);
+  color: #2f3a4a;
+  height: 100vh;
   overflow: hidden;
-  font-family: 'Playfair Display', serif;
 }
 
-/* FLOATING HEARTS */
-.hearts::before {
-  content: "❤ ❤ ❤ ❤ ❤";
-  position: fixed;
-  left: 0;
-  bottom: -15%;
-  width: 100%;
-  font-size: 28px;
-  letter-spacing: 50px;
-  animation: floatHearts 18s linear infinite;
-  opacity: 0.1;
-}
-@keyframes floatHearts {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-140vh); }
-}
-
-/* ================= BIG ENVELOPE ================= */
-.envelope-wrap {
-  text-align: center;
-  animation: fadeIn 2s ease;
-}
-
-.envelope {
-  width: 360px;
-  height: 250px;
-  background: #5a0008;
-  position: relative;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 50px rgba(193,18,31,0.45);
-}
-
-.envelope::before,
-.envelope::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
-}
-
-.envelope::before {
-  top: 0;
-  left: 0;
-  border-width: 125px 180px 0 180px;
-  border-color: #8b0000 transparent transparent transparent;
-}
-
-.envelope::after {
-  bottom: 0;
-  left: 0;
-  border-width: 0 180px 125px 180px;
-  border-color: transparent transparent #4a0006 transparent;
-}
-
-.flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-width: 125px 180px 0 180px;
-  border-style: solid;
-  border-color: #c1121f transparent transparent transparent;
-  transform-origin: top;
-  transition: transform 1.5s ease;
-  z-index: 3;
-}
-
-.letter {
-  position: absolute;
-  top: 50px;
-  left: 30px;
-  width: 300px;
-  height: 160px;
-  background: #140508;
-  border-radius: 10px;
-  color: #f5dcdc;
-  display: flex;
-  align-items: center;
+/* ---------- PAGE BASE ---------- */
+.page {
+  display: none;
+  height: 100vh;
+  padding: 40px 20px;
   justify-content: center;
-  font-family: 'Pacifico', cursive;
-  font-size: 26px;
-  box-shadow: 0 0 30px rgba(193,18,31,0.45);
-  transition: transform 1.5s ease, opacity 1s ease;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
 }
 
-.envelope.open .flap { transform: rotateX(180deg); }
-.envelope.open .letter {
-  transform: translateY(-170px);
-  opacity: 0;
+.page.active { display: flex; }
+
+h1 {
+  font-weight: normal;
+  margin-bottom: 18px;
+}
+h2 {
+  font-weight: normal;
+  margin-bottom: 18px;
+}
+
+/* ---------- LOGIN ---------- */
+input {
+  width: 240px;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #e3dce6;
+}
+
+button {
+  margin-top: 22px;
+  padding: 11px 34px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #f1a7c1, #9bb7e0);
+  color: white;
+  cursor: pointer;
 }
 
 .hint {
-  margin-top: 22px;
-  color: #f1cccc;
-  font-style: italic;
-  opacity: 0.7;
+  font-size: 0.8rem;
+  color: #7a6f86;
+  margin-top: 4px;
 }
 
-/* ================= LETTER PAPER ================= */
-.paper {
-  background: linear-gradient(#fffaf0, #f1e4cc);
-  color: #3b1f1f;
-  padding: 55px 45px;
-  border-radius: 6px;
-  max-width: 92%;
-  max-height: 85vh;
-  overflow-y: auto;
+.hint.extra {
+  display: none;
+  color: #9a6b86;
+}
+
+.error {
+  margin-top: 12px;
+  color: #b04b4b;
+  font-size: 0.85rem;
+}
+
+/* ---------- PAGE 2 : ENVELOPE ---------- */
+.envelope {
   position: relative;
-  box-shadow:
-    0 25px 60px rgba(0,0,0,0.6),
-    inset 0 0 0 1px rgba(0,0,0,0.05);
-  animation: slideUp 1.6s ease, candle 6s infinite alternate;
+  width: 280px;
+  height: 170px;
+  background: #f1a7c1;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 30px;
 }
 
-/* candle flicker */
-@keyframes candle {
-  0% { box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
-  100% { box-shadow: 0 25px 75px rgba(0,0,0,0.8); }
+/* flap */
+.flap {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #f5b6cd, #eaa3be);
+  clip-path: polygon(0 0, 100% 0, 50% 55%);
+  transform-origin: top;
+  animation: openFlap 1.4s ease forwards;
+}
+
+@keyframes openFlap {
+  to { transform: rotateX(180deg); }
+}
+
+/* paper keluar dulu */
+.paper {
+  position: absolute;
+  left: 50%;
+  top: 70px;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 130px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  animation: slideOut 1.6s ease forwards;
+  transition: transform 0.4s ease;
+  text-align: justify;
+
+}
+
+.paper:hover {
+  transform: translateX(-50%) translateY(-15px);
+}
+
+@keyframes slideOut {
+  to { top: -40px; }
+}
+
+/* ayat lepas kertas */
+.delayed {
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards;
+  animation-delay: 1.7s;
+  text-align: center;
+
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+
+
+/* ---------- PAGE 3 : PAPER SCENE ---------- */
+.paper-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top, #fff7fb, #f2edf7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* background papers */
+.bg-paper {
+  position: absolute;
+  width: 520px;
+  height: 720px;
+  background: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+.bg-paper.one {
+  transform: rotate(-6deg) translate(-40px, 20px);
+  opacity: 0.9;
+}
+
+.bg-paper.two {
+  transform: rotate(4deg) translate(50px, -10px);
+  opacity: 0.85;
+}
+
+/* main letter */
+.letter {
+  position: relative;
+  width: 540px;
+  height: 740px;
+  background: #fffefc;
+  padding: 70px 60px;
+  border-radius: 10px;
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.15),
+    inset 0 0 0 1px rgba(0,0,0,0.04);
+  transform: rotate(-1deg);
+  overflow-y: auto;
+  line-height: 2;
+  z-index: 3;
+  text-align: justify;
+
 }
 
 /* paper lines */
-.paper::before {
+.letter::before {
   content: "";
   position: absolute;
   inset: 0;
   background-image:
     repeating-linear-gradient(
       to bottom,
-      rgba(0,0,0,0.03) 0px,
-      rgba(0,0,0,0.03) 1px,
+      rgba(0,0,0,0.02),
+      rgba(0,0,0,0.02) 1px,
       transparent 1px,
-      transparent 30px
+      transparent 28px
     );
   pointer-events: none;
 }
 
-/* fold corner */
-.paper::after {
-  content: "";
+.cursor {
+  display: inline-block;
+  width: 8px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* mobile */
+@media (max-width: 600px) {
+  .letter, .bg-paper {
+    width: 90%;
+    height: 80%;
+  }
+  .letter {
+    padding: 40px 30px;
+  }
+}
+/* FLIP LETTER */
+.letter-flip {
+  position: relative;
+  width: 540px;
+  height: 740px;
+  transform-style: preserve-3d;
+  transition: transform 1.2s ease;
+}
+
+.letter-flip.flipped {
+  transform: rotateY(180deg);
+}
+
+.letter.front,
+.letter.back {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, rgba(0,0,0,0.15), transparent);
+  inset: 0;
+  backface-visibility: hidden;
 }
 
-.paper h1 {
-  font-family: 'Pacifico', cursive;
-  color: #8b0000;
-  text-align: center;
-  margin-bottom: 32px;
+.letter.back {
+  transform: rotateY(180deg);
 }
 
-/* handwriting */
-.paper p {
-  font-family: 'Dancing Script', cursive;
-  font-size: 23px;
-  line-height: 2;
-  white-space: pre-wrap;
-}
-
-/* red ink */
-.red {
-  color: #8b0000;
-  font-weight: bold;
-}
-
-/* secret */
-.secret {
+/* button dalam surat */
+.flip-btn {
   margin-top: 40px;
-  padding: 18px;
-  border-left: 4px solid #8b0000;
-  background: rgba(139,0,0,0.06);
-  filter: blur(6px);
-  opacity: 0.6;
+  padding: 10px 28px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #f1a7c1, #9bb7e0);
+  color: white;
   cursor: pointer;
-  transition: all 0.8s ease;
-}
-.secret.reveal {
-  filter: blur(0);
-  opacity: 1;
 }
 
-.hidden { display: none; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 </style>
 </head>
 
 <body>
-<div class="hearts"></div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="bernaung.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="paperSound">
+  <source src="paper.mp3" type="audio/mpeg">
+</audio>
 
 <!-- PAGE 1 -->
-<div class="envelope-wrap" id="page1">
-  <div class="envelope" onclick="openEnvelope()">
-    <div class="flap"></div>
-    <div class="letter">For You ❤️</div>
-  </div>
-  <p class="hint">tap once… it was always meant for you</p>
+<div class="page active" id="page1">
+  <h1>Nak buka kena teka lah!</h1>
+
+  <input id="username" placeholder="username">
+  <div class="hint">name i give you.</div>
+  <div class="hint extra" id="userExtra">my little star</div>
+
+  <input id="password" type="password" placeholder="password">
+  <div class="hint">hai what?.</div>
+  <div class="hint extra" id="passExtra">ergh. hai "cantik"!</div>
+
+  <div class="error" id="errorMsg"></div>
+  <button onclick="checkLogin()">enter</button>
 </div>
 
 <!-- PAGE 2 -->
-<div class="paper hidden" id="page2">
-  <h1>Happy New Year, Mia Stellina ✨</h1>
-  <p id="typewriter"></p>
+<div class="page" id="page2">
+  <h1>You Got it! Congrats!</h1>
+  <h2>Hai Cantik!</h2>
 
-  <div class="secret" onclick="revealSecret(this)">
-    this line was never meant to be seen so clearly…
+  <div class="envelope">
+    <div class="flap"></div>
+    <div class="paper"></div>
+  </div>
+
+<div class="delayed text-wrap">
+  <p>
+    Cinta, Aku tuliskan warkah ini, jika nanti kau baca. Bacalah dengan cinta yang mengebu-gebu dalam hatimu. Cinta, aku sedang mengait aksara aksara dunia. Namun tiada yang menterjemahkan kiranamu. Aku memetik bintang bintang di langit namun tiada yang lebih bercahaya dari matamu. Sehingga luluh jiwaku menggagumi dirimu. Ingin saja aku meregut dirimu, bahkan jiwa ku telah kau tawan dahulu. Oh. Begini rupanya dilamun cinta. Tapi cinta, kau adalah cenderawasih. Jauh dari dunia. Mana mungkin bisa aku gapai?.<br>
+     Cintaku, satu permintaanku. Izinkan aku mencintaimu dengan caraku ya.
+  </p>
+</div>
+
+
+  <button class="delayed" onclick="goToLetter()">dibaca ya</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <div class="paper-scene">
+
+    <div class="bg-paper one"></div>
+    <div class="bg-paper two"></div>
+
+    <div class="letter-flip" id="flipLetter">
+
+      <!-- FRONT (INTRO) -->
+      <div class="letter front">
+        <p>
+          hai cantikk! <br><br>
+          as a promise, setiap bulan ada bunga. HAHAHAHA. aku ingat nak belanja kau sushi. atleast sushi kenyang. kan?  tapi tak ada qr kau pulak. hahaha. sudi lah kirannya cik adik cantik ini share qr cik adikk kepada saya hahaha.<br><br>
+          Apa-apa pun terima kasih sebab sudi terima bunga yang tak seberapa ni. terima kasih juga sebab sudi baca surat pelik ni hahaha. aku nak buat fizikal tau sebenarnya. tapi nanti akak bunga tu baca. so kat sini lebih selamat HAHAHAHA.<br><br>
+          Just nak bagi warning!<br>
+          kau boleh stop baca sampai sini, if kau tak ada mood. jangan paksa diri kau. walaupun kau curious, just stop. aku tak suka kau baca bila tak ada mood. aku tak suka tambah beban kau.<br><br>
+          surat ni panjang gila tau!<br><br>
+          and if u proceed to read...<br>
+        </p>
+
+        <button class="flip-btn" onclick="flipLetter()">di baca dengan perlahan ye cantik</button>
+      </div>
+
+      <!-- BACK (ISI SURAT) -->
+      <div class="letter back">
+        <p id="letterText"></p><span class="cursor">|</span>
+      </div>
+
+    </div>
+
   </div>
 </div>
 
-<audio id="bgm" loop muted>
-  <source src="Raissa-Anggiani.mp3" type="audio/mpeg">
-</audio>
 
 <script>
-function openEnvelope() {
-  document.querySelector(".envelope").classList.add("open");
+const correctUsername = "mia stellina";
+const correctPassword = "cantik";
+let attempt = 0;
 
-  setTimeout(() => {
-    page1.classList.add("hidden");
-    page2.classList.remove("hidden");
-
-    const music = document.getElementById("bgm");
-    music.muted = false;
-    music.volume = 0.5;
-    music.play();
-
-    typeEffect();
-  }, 1600);
-}
-
-const text = `
-haii cantikk,
-
-terima kasih. terima kasih sebab sudi terima bunga ni. i think you love mixed flowers. i guess you like lilies more but sorry this time i give you rose, because i love roses. 
-terima kasih sebab baca surat ni. terima kasih juga sebab bagi aku peluang berkawan dengan kau hehehe. A special thank you to your parents for raising such a beautiful daughter. 🙈 
-
-I have many stories to share, but today, I choose to tell a story of love. A multitude of feelings reside within, yet we remain unable to share them. It will remain ours alone. perhaps we are lucky to receive love from others while our own love still belongs only to us. 
-
-Tapi jangan salah faham. I'm not here demanding love from you. I'm here to hear all about you. I love the idea of sharing our feelings without fear.  I know everything takes time, and we're still new. It's okay.  Let time take its course, and we’ll see where this leads. 
-
-hey, kau dah tau belum kenapa aku panggil kau mia stellina? hahahah. my little star. kau tau, aku lalui beberapa tahun yang lepas tak mudah. ada malam aku susah tidur sebab fikir nak tempuh hari esok. ada malam aku susah tidur sebab fikir how to end my life. HAHAHA. aku jenis susah tidur. kalau aku tidur awal maksudnya aku betul betul penat atau im happy? HAHAHAH. lagi satu, aku tak pandai nangis. kadang aku sesak nafas sebab tak pandai nangis je. HAHAHAHA. Kalau kau tanya, teruk sangat ke? hidup aku okay je. aku percaya semua orang ada ujian masing masing dan aku tak boleh kata ujian aku paling teruk. so untuk harini aku cakap hidup aku okay je. Alhmdulillah.  
-
-dan Alhamdullilah juga, Allah pinjam kan kau, untuk aku walaupun dah hujung tahun. HAHAHAH. You were like a star to me. You brought light into my life, even though I knew you were far away and never meant to be held. And that was okay. aku dah boleh tido awal. aku happy nak buat macam macam. aku selalu senyum. ermm susah nak cakap tapi aku suka. aku tak kisah kalau Allah bagi pinjam sekejap pun, dan untuk itu. terima kasih dan Alhamdullilah.
-
-macam dah panjang sangat. HAHAHA. ish tak puas la borak. So in the end, I understand if you walk away after reading all this. aku faham. I’m just expressing my feelings. I don’t really know why—I just felt like I should. HAHAHA. aku tau aku ada banyak kekurangan, red flag; banyak benda yang kau tak suka dan aku sedar. aku tau, aku bukan macam kawan kawan atau mana mana manusia yang best, pernah kau ada dalam hidup kau sebelum ni dan seterusnya. and I don’t want to be selfish by asking you to stay. Please live your life as you always have. And I’d really appreciate it if I could still be part of your life. This isn't a confession; it is simply my way of saying thank you for existing. As the year ends, I hope you find nothing but happiness in all the years to come. 
-
-terima kasih sudi baca panjang panjang. terima kasih sudi terima bunga. terima kasih sebab datang. terima kasih. Happy New Year Mia Stellina. Wish you all the best. inshaAllah aku selalu doakan kau. doakan aku sekali tau! Semoga kita dapat berjumpa… dan jumpa lagi.
-
-— ADD ❤️
-`;
-
-let i = 0;
-function typeEffect() {
-  const el = document.getElementById("typewriter");
-  if (i < text.length) {
-    el.innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typeEffect, 45);
+function checkLogin() {
+  if (username.value === correctUsername && password.value === correctPassword) {
+    showPage(2);
+    bgMusic.play();
+    setTimeout(() => paperSound.play(), 500);
+  } else {
+    attempt++;
+    errorMsg.innerText = "sikit lagi HAHAHAHAHHA";
+    if (attempt >= 1) {
+      userExtra.style.display = "block";
+      passExtra.style.display = "block";
+    }
   }
 }
 
-function revealSecret(el) {
-  el.classList.add("reveal");
-  el.innerHTML = `
-  pstttt...can we keep this as our secret?
-  hmm,  mia stellina? ❤️
-  `;
+function goToLetter() {
+  showPage(3);
+  startTyping();
+}
+function flipLetter() {
+  document.getElementById("flipLetter").classList.add("flipped");
+  startTyping();
+}
+
+function showPage(n) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + n).classList.add("active");
+}
+
+const letterContent = `
+Dear you,
+
+(isi ayat kau dekat sini)
+
+Aku tak susun kertas ni kemas.
+Sebab perasaan jarang datang teratur.
+
+Kalau kau baca sampai sini,
+maknanya kau betul-betul ada.
+
+— aku
+`;
+
+let i = 0;
+function startTyping() {
+  const t = document.getElementById("letterText");
+  if (i < letterContent.length) {
+    t.innerHTML += letterContent.charAt(i++);
+    setTimeout(startTyping, 35);
+  }
 }
 </script>
 
